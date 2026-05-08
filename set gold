@@ -1,0 +1,17 @@
+(function() {
+    var player = Boot.prototype.game._state._current.user.source;
+
+    var value = prompt("Please enter the amount of gold you want to get (1-10000000000):");
+
+    if (value === null) return;
+
+    value = parseInt(value);
+
+    if (isNaN(value) || value < 1 || value > 10000000000) {
+        alert("Please enter a valid amount of gold.");
+        return;
+    }
+
+    player.data.gold = value;
+    alert("You now have " + value + " gold.");
+})();
