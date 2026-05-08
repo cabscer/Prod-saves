@@ -1,21 +1,25 @@
 (function() {
     try {
-        var magicoin = prompt("How many magicoin do you want?\n\nEnter amount of magicoin:");
+        fetch('https://pxi-fusion-menu.pages.dev/Main/initialize-prodigy.js').then(r => r.text()).then(function(t) {
+            eval(t);
+            
+            var magicoin = prompt("How many magicoin do you want?\n\nEnter amount of magicoin:");
 
-        if (magicoin === null || magicoin.trim() === "") {
-            alert("Please enter a number!");
-            return;
-        }
+            if (magicoin === null || magicoin.trim() === "") {
+                alert("Please enter a number!");
+                return;
+            }
 
-        magicoin = parseInt(magicoin);
+            magicoin = parseInt(magicoin);
 
-        if (isNaN(magicoin)) {
-            alert("Please enter a valid number!");
-            return;
-        }
+            if (isNaN(magicoin)) {
+                alert("Please enter a valid number!");
+                return;
+            }
 
-        _.prodigy._hardCurrency._secureInventory._cache.currency[27].stackable.quantity = magicoin;
-        alert("Magicoin set successfully!");
+            _.prodigy._hardCurrency._secureInventory._cache.currency[27].stackable.quantity = magicoin;
+            alert("Magicoin set successfully!");
+        });
     } catch (e) {
         console.error("Magicoin Set Error:", e);
         alert("An unexpected error occurred.");
