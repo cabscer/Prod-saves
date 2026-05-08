@@ -1,0 +1,36 @@
+(function () {
+  if (confirm("This will add all epics to your backpack.\n\nAdd All Epics?")) {
+    const backpack = Boot.prototype.game._state._current.user.source.backpack.data;
+    if (!backpack.follow) backpack.follow = [];
+
+    const followPets = [
+      { ID: 125, assetID: 270, name: "Big Hex" },
+      { ID: 126, assetID: 271, name: "Florafox" },
+      { ID: 127, assetID: 272, name: "Arctursus" },
+      { ID: 128, assetID: 273, name: "Diveodile" },
+      { ID: 129, assetID: 274, name: "Magmischief" },
+      { ID: 134, assetID: 1261, name: "Chill & Char" },
+      { ID: 135, assetID: 1263, name: "Tidus" },
+      { ID: 136, assetID: 1283, name: "Luma" },
+      { ID: 137, assetID: 1284, name: "Eclipse" }
+    ];
+
+    followPets.forEach(pet => {
+      backpack.follow.push({
+        ID: pet.ID,
+        assetID: pet.assetID,
+        N: 1,
+        defence: 0,
+        hp: 0,
+        power: 0,
+        speed: 40,
+        type: "follow"
+      });
+    });
+
+    Boot.prototype.game._state._current.user.source.updated = true;
+    Boot.prototype.game._state._current.user.source.backpack.updated = true;
+
+    alert("All epics have been added successfully.");
+  }
+})();
