@@ -1,4 +1,4 @@
-javascript:(function() {
+(function() {
     var Player = Boot.prototype.game._state._current.user.source;
     var GameData = Boot.prototype.game._state._states.get("Boot")._gameData;
 
