@@ -1,0 +1,49 @@
+(function() {
+    var names = ["Boots", "Buddies", "Fossils", "Hats", "Items", "Key Items", "Tower Town Frames", "Tower Town Interiors", "Mounts", "Outfits", "Relics", "Weapons", "Currencies"];
+    var ids = ["boots", "follow", "fossil", "hat", "item", "key", "mathTownFrame", "mathTownInterior", "mount", "outfit", "spellRelic", "weapon", "currency"];
+    var player = Boot.prototype.game._state._current.user.source;
+    var gameData = Boot.prototype.game._state._states.get("Boot")._gameData;
+
+    var categoryList = "";
+    for (var i = 0; i < names.length; i++) {
+        categoryList += i + ". " + names[i] + "\n";
+    }
+
+    var value = prompt("Please select the category of items you want to get.\n\n" + categoryList);
+    value = parseInt(value);
+
+    if (isNaN(value) || value < 0 || value >= names.length) {
+        alert("Invalid selection.");
+        return;
+    }
+
+    var name = names[value];
+    var id = ids[value];
+
+    var amount = prompt("Please enter the amount of " + name.toLowerCase() + " you want to get (0-9999):");
+    amount = parseInt(amount);
+
+    if (isNaN(amount) || amount < 0 || amount > 9999) {
+        alert("Please enter a number between 0 and 9999.");
+        return;
+    }
+
+    if (id === "mount") amount = Math.min(amount, gameData.mount.length);
+
+    function itemify(item, amount) {
+        return item.map(function(i) {
+            return {
+                ID: i.ID,
+                N: amount
+            };
+        }).filter(function(v) {
+            return v !== undefined;
+        });
+    }
+
+    player.backpack.data[id] = itemify(gameData[id].filter(function(i) {
+        return id === "follow" ? ![125, 126, 127, 128, 129, 134, 135, 136, 137].includes(i.ID) : i;
+    }), amount);
+
+    alert(amount + " " + name.toLowerCase() + " have been added to your backpack.");
+})();
