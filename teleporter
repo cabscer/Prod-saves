@@ -1,0 +1,48 @@
+// Teleport To World auto-run functionality
+(function() {
+    function getHack() {
+        return Boot.prototype.game;
+    }
+
+    var world = getHack()._state._current._world;
+    var locationNames = Object.values(world.zones).map(function(zone) {
+        return zone.name;
+    });
+    var locationIds = Object.keys(world.zones);
+
+    var locationList = "";
+    for (var i = 0; i < locationNames.length; i++) {
+        locationList += i + ". " + locationNames[i] + "\n";
+    }
+
+    var location = prompt("Select Location:\n\n" + locationList);
+    location = parseInt(location);
+
+    if (isNaN(location) || location < 0 || location >= locationNames.length) {
+        alert("Invalid location selection.");
+        return;
+    }
+
+    var locationId = locationIds[location];
+    var locationName = locationNames[location];
+
+    var zone = world.zones[locationId];
+    var maps = Object.keys(zone.maps);
+
+    var mapList = "";
+    for (var i = 0; i < maps.length; i++) {
+        mapList += i + ". " + maps[i] + "\n";
+    }
+
+    var map = prompt("Select Map for " + locationName + ":\n\n" + mapList);
+    map = parseInt(map);
+
+    if (isNaN(map) || map < 0 || map >= maps.length) {
+        alert("Invalid map selection.");
+        return;
+    }
+
+    zone.teleport(maps[map], 500, 500, {}, {});
+
+    alert("You have been teleported to " + locationName + " - " + maps[map] + ".");
+})();
