@@ -1,0 +1,34 @@
+(function(){
+    // Ensure the player variable is defined
+    var player;
+    try {
+        player = Boot.prototype.game._state._current.user.source;
+    } catch (e) {
+        console.error("Player object not found.");
+        return;
+    }
+
+    // Ensure gameData is defined
+    var gameData;
+    try {
+        gameData = Boot.prototype.game._state._states.get("Boot")._gameData;
+    } catch (e) {
+        console.error("gameData object not found.");
+        return;
+    }
+
+    var name = prompt("Enter your new name:");
+
+    if (name && name.trim() !== "") {
+        player.appearanceChanged = true;
+        gameData.name[1209].data.value = name;
+        gameData.name[1209].data.name = name;
+        player.name.data.firstName = 1237;
+        player.name.data.middleName = null;
+        player.name.data.lastName = null;
+        player.name.data.nickName = null;
+        alert("Your name is now " + name);
+    } else if (name !== null) {
+        alert("You need to write something!");
+    }
+})();
