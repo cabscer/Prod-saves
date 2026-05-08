@@ -1,0 +1,45 @@
+javascript:(function() {
+    var Player = Boot.prototype.game._state._current.user.source;
+    var GameData = Boot.prototype.game._state._states.get("Boot")._gameData;
+
+    function WipePets() {
+        Player.kennel._petData = [];
+        Player.appearanceChanged = true;
+    }
+
+    function CreatePet(id, level) {
+        Player.kennel._encounterInfo._data.pets = [];
+        GameData.pet[id];
+        Player.kennel._encounterInfo._data.pets.push({
+            firstSeenDate: Date.now(),
+            ID: id,
+            timesBattled: 1,
+            timesRescued: 1
+        });
+        Player.kennel.petTeam.forEach(v => {
+            if (v && v.assignRandomSpells) {
+                v.assignRandomSpells();
+            }
+        });
+        Player.appearanceChanged = true;
+        return Player.kennel.addPet(id.toString(), 9007199254740991, 26376, level);
+    }
+
+    function GetAllPets(level) {
+        WipePets();
+        GameData.pet.forEach(x => {
+            CreatePet(x.ID, level);
+        });
+    }
+
+    var level = prompt("Enter Pet Level (1-150):", "1");
+    level = parseInt(level);
+
+    if (isNaN(level) || level < 1 || level > 150) {
+        alert("Level must be between 1 and 150");
+        return;
+    }
+
+    GetAllPets(level);
+    alert("All pets have been set to level " + level);
+})();
