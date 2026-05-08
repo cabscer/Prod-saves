@@ -1,0 +1,17 @@
+(function() {
+    var player = Boot.prototype.game._state._current.user.source;
+
+    var value = prompt("Please enter the amount of Member stars you want to get (1-9999999):");
+
+    if (value === null) return;
+
+    value = parseInt(value);
+
+    if (isNaN(value) || value < 1 || value > 9999999) {
+        alert("Value must be between 1 and 9999999");
+        return;
+    }
+
+    player.data.storedMemberStars = value;
+    alert("You now have " + value + " member stars.");
+})();
