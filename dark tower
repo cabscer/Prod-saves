@@ -1,0 +1,17 @@
+(function() {
+    var player = Boot.prototype.game._state._current.user.source;
+
+    var floor = prompt("Please enter the floor you want to be on (1-100):");
+
+    if (floor === null) return;
+
+    floor = parseInt(floor);
+
+    if (isNaN(floor) || floor < 1 || floor > 100) {
+        alert("Value must be between 1 and 100");
+        return;
+    }
+
+    player.data.tower = floor;
+    alert("You are now on floor " + floor + ".");
+})();
