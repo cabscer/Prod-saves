@@ -1,0 +1,31 @@
+(function() {
+    function changeLevel(level, player) {
+        if (level === 1) {
+            player.data.stars = 0;
+        } else if (level === 2) {
+            player.data.stars = 10;
+        } else {
+            var offsetLevel = level - 2;
+            var xpConstant = 1.042;
+            player.data.stars = Math.round((((1 - Math.pow(xpConstant, offsetLevel)) / (1 - xpConstant)) * 20) + 10);
+        }
+
+        player.data.level = level;
+    }
+
+    var player = Boot.prototype.game._state._current.user.source;
+
+    var value = prompt("Please enter the level you want to be (1-150):");
+
+    if (value === null) return;
+
+    value = parseInt(value);
+
+    if (isNaN(value) || value < 1 || value > 150) {
+        alert("Level must be between 1 and 150");
+        return;
+    }
+
+    changeLevel(value, player);
+    alert("You are now level " + value + ".");
+})();
