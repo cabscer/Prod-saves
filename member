@@ -1,0 +1,89 @@
+(function() {
+    var player;
+    try {
+        player = Boot.prototype.game._state._current.user.source;
+    } catch (e) {
+        console.error("User or player object not found.");
+        return;
+    }
+
+    if (!player || !player._player) {
+        alert("Error: User or player object not found.");
+        return;
+    }
+
+    var membership = player._player;
+    var currentTier = -1;
+
+    try {
+        currentTier = typeof membership.getMemberTier === "function" ? membership.getMemberTier() : -1;
+    } catch (e) {
+        currentTier = -1;
+    }
+
+    // Show current status and options
+    var statusMsg = "Current membership tier: ";
+    switch (currentTier) {
+        case -1: statusMsg += "None (disabled)"; break;
+        case 0: statusMsg += "Basic"; break;
+        case 1: statusMsg += "Plus"; break;
+        case 2: statusMsg += "Ultimate"; break;
+        default: statusMsg += "Unknown";
+    }
+
+    var choice = prompt(
+        statusMsg + "\n\n" +
+        "Choose membership tier:\n" +
+        "0 = Disable Membership\n" +
+        "1 = Basic Member\n" +
+        "2 = Plus Membership\n" +
+        "3 = Ultimate Membership\n\n" +
+        "Enter number (0-3):"
+    );
+
+    if (choice === null) return;
+
+    choice = parseInt(choice);
+
+    if (isNaN(choice) || choice < 0 || choice > 3) {
+        alert("Invalid selection.");
+        return;
+    }
+
+    var tierName = "";
+    var tierValue = -1;
+
+    switch (choice) {
+        case 0:
+            membership.hasMembership = false;
+            membership._segment = function() { return false; };
+            membership._activePlayer = false;
+            tierName = "Membership disabled.";
+            break;
+        case 1:
+            tierValue = 0;
+            tierName = "Basic Member";
+            break;
+        case 2:
+            tierValue = 1;
+            tierName = "Plus Membership";
+            break;
+        case 3:
+            tierValue = 2;
+            tierName = "Ultimate Membership";
+            break;
+    }
+
+    if (choice > 0) {
+        membership.hasMembership = true;
+        membership._segment = function() { return true; };
+        membership._activePlayer = true;
+        if (typeof membership.getMemberTier === "function") {
+            membership.getMemberTier = function() { return tierValue; };
+        }
+        player.appearanceChanged = true;
+    }
+
+    console.log("Membership tier " + tierValue + " applied.");
+    alert("Success! " + tierName);
+})();
