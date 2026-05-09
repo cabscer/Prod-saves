@@ -1,0 +1,34 @@
+(function() {
+    try {
+        var prodigy = window._?.prodigy;
+        var battlePass = prodigy?._currentBattlePass || prodigy?._battlePass;
+
+        if (!battlePass || typeof battlePass !== "object") {
+            alert("Error: Battle Pass not found.");
+            return;
+        }
+
+        var tiers = battlePass._tiers;
+
+        if (!tiers || typeof tiers !== "object") {
+            alert("Error: Tiers not found in battle pass.");
+            return;
+        }
+
+        Object.values(tiers).forEach(function(tier) {
+            if (!tier) return;
+
+            tier.isCompleted = true;
+
+            if (tier.freeReward && tier.topPremiumReward) {
+                tier.topPremiumReward.claimed = false;
+                tier.topPremiumReward.claimable = true;
+            }
+        });
+
+        alert("Plus Tiers Unlocked.");
+    } catch (e) {
+        console.error("Battle Pass Unlock Error:", e);
+        alert("An unexpected error occurred.");
+    }
+})();
